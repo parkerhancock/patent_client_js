@@ -1,0 +1,19 @@
+{
+  "name": "patent_client_js",
+  "version": "1.0.0",
+  "description": "A ES6 JS version of patent_client",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Parker Hancock",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "jest": "^24.4.0"
+  },
+  "dependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.3.4",
+    "request": "^2.88.0",
+    "request-promise-native": "^1.0.7"
+  }
+}
