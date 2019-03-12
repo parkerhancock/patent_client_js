@@ -47,17 +47,16 @@ test("can get documents for a trial", () => {
 })
 
 test("can get documents from a trial", () => {
-    return PtabTrial.objects.get("IPR2016-00831").then(data => data.documents().next()).then(data => {
+    return PtabTrial.objects.get("IPR2016-00831").then(data => data.documents.next()).then(data => {
         expect(data.title).toBe("U.S. Provisional Application No. 60/046,276")
     })
 })
 
 test("can iterate through documents", () => {
     return PtabTrial.objects.get("IPR2016-00831").then(trial => {
-        let docManager = trial.documents();
         let docs = Array(3);
         for (let i=0; i < 3; i++) {
-            docs[i] = docManager.next()
+            docs[i] = trial.documents.next()
         }
         return Promise.all(docs)
     }).then(data => {

@@ -11,22 +11,20 @@ class PtabModel {
 
 class PtabManager {
     constructor(params) {
-        if (typeof params === 'string' || params instanceof String) {
-            this.params = {
-                [this.defaultQuery]: params
-            };
-        } else {
-        this.params = params;
-        };
+        this.params = this.constructor.applyDefaultQuery(params);
         this.iteratorIndex = 0;
         this.pages = {};
     }
 
     filter(params) {
+        return this.constructor({...this.params, ...this.constructor.applyDefaultQuery(params)})
+    }
+
+    static applyDefaultQuery(params) {
         if (typeof params === 'string' || params instanceof String) {
-            params = {[this.defaultQuery]: params}
-        }
-        return this.constructor(params)
+            params = {trialNumber: params}
+        } 
+        return params
     }
 
     async getPage(pageNumber) {
@@ -56,8 +54,9 @@ class PtabManager {
 }
 
 class PtabTrial extends PtabModel {
-    documents () {
-        return PtabDocument.objects.filter(this.trialNumber)
+    constructor(params){
+        super(params)
+        this.documents = PtabDocument.objects.filter(this.trialNumber)
     }
 };
 
@@ -68,8 +67,9 @@ class PtabTrialManager extends PtabManager {
 }
 
 class PtabDocument extends PtabModel {
-    trial() {
-        return PtabDocument.objects.get(this.trialNumber)
+    constructor(params){
+        super(params)
+        this.trial = PtabDocument.objects.filter(this.trialNumber)
     }
 };
 
