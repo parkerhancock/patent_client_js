@@ -1,32 +1,13 @@
 require("@babel/polyfill");
 const request = require('request-promise-native');
+const base = require('./base')
 
-class PtabModel {
-    constructor(data) {
-        for (var key of Object.keys(data)) {
-            this[key] = (key.includes("Date") ? new Date(data[key]) : data[key]);
-        }
-    }
-}
+const Model = base.Model
+const Manager = base.Manager
 
-class PtabManager {
-    constructor(params) {
-        this.params = this.constructor.applyDefaultQuery(params);
-        this.iteratorIndex = 0;
-        this.pages = {};
-    }
+class PtabModel extends Model {};
 
-    filter(params) {
-        return this.constructor({...this.params, ...this.constructor.applyDefaultQuery(params)})
-    }
-
-    static applyDefaultQuery(params) {
-        if (typeof params === 'string' || params instanceof String) {
-            params = {trialNumber: params}
-        } 
-        return params
-    }
-
+class PtabManager extends Manager {
     async length() {
         let page = await this.getPage(0)
         return page.metadata.count
@@ -52,11 +33,7 @@ class PtabManager {
         return new this.modelClass(page.results[index]);
     }
 
-    async get(params) {
-        let manager = this.filter(params);
-        return await manager.next();
-    }
-}
+};
 
 class PtabTrial extends PtabModel {
     constructor(params){
