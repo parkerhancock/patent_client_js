@@ -9,11 +9,21 @@
   "author": "Parker Hancock",
   "license": "UNLICENSED",
   "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/preset-env": "^7.3.4",
+    "babel-jest": "^24.4.0",
     "jest": "^24.4.0"
   },
   "dependencies": {
     "@babel/plugin-proposal-class-properties": "^7.3.4",
+    "@babel/polyfill": "^7.2.5",
+    "babel-core": "^6.26.3",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.7"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    }
   }
 }
