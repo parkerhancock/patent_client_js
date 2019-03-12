@@ -24,6 +24,12 @@ test("can get a trial", () => {
     })
 });
 
+test("can get a trial from a patent number", () => {
+    return PtabTrial.objects.get({patentNumber: "6162705"}).then(trial => {
+        expect(trial.trialNumber).toBe("IPR2016-00831");
+    })
+})
+
 test("can get documents for a trial", () => {
     /* Document JSON expected
       trialNumber: 'IPR2016-00831',
@@ -52,8 +58,16 @@ test("can get documents from a trial", () => {
     })
 })
 
+test("can get trial from a document", ()=>{
+    return PtabDocument.objects.filter("IPR2016-00831").next().then(doc => {
+        doc.trial.get().then(trial => expect(trial.trialNumber).toBe("IPR2016-00831"))
+    }
+    )
+})
+
 test("can iterate through documents", () => {
     return PtabTrial.objects.get("IPR2016-00831").then(trial => {
+        trial.documents.length().then(length => expect(length).toBe(82))
         let docs = Array(3);
         for (let i=0; i < 3; i++) {
             docs[i] = trial.documents.next()

@@ -27,6 +27,11 @@ class PtabManager {
         return params
     }
 
+    async length() {
+        let page = await this.getPage(0)
+        return page.metadata.count
+    }
+
     async getPage(pageNumber) {
         if (!(pageNumber in this.pages)) {
             let page = await request.get({
