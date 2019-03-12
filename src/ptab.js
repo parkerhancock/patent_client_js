@@ -3,14 +3,8 @@ const request = require('request-promise-native');
 
 class PtabModel {
     constructor(data) {
-        for (var key in data) {
-            if (data.hasOwnProperty(key)) {
-                var field = data[key]
-                if (key.includes("Date")) {
-                    field = new Date(field);
-                }
-                this[key] = field;
-            }
+        for (var key of Object.keys(data)) {
+            this[key] = (key.includes("Date") ? new Date(data[key]) : data[key]);
         }
     }
 }

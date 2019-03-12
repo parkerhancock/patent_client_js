@@ -1,13 +1,12 @@
 {
-  "name": "patent_client_js",
+  "name": "patent_client",
   "version": "1.0.0",
-  "description": "A ES6 JS version of patent_client",
-  "main": "index.js",
+  "description": "A ES6 JS version of the Python patent_client",
   "scripts": {
     "test": "jest"
   },
   "author": "Parker Hancock",
-  "license": "UNLICENSED",
+  "license": "Apache 2.0",
   "devDependencies": {
     "@babel/cli": "^7.2.3",
     "@babel/preset-env": "^7.3.4",
