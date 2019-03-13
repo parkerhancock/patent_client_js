@@ -73,7 +73,7 @@ To use the project:
 
     //Same as above, but with async/await
     async function get_trial(trial_number) {
-        return await PtabTrial.objects.get("IPR2016-00831)
+        return await PtabTrial.objects.get("IPR2016-00831")
     }
 
     async function get_docs_from_trial(trial_number) {
