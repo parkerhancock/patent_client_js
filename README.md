@@ -77,7 +77,7 @@ To use the project:
     }
 
     async function get_docs_from_trial(trial_number) {
-        let trial = await PtabTrial.objects.get("IPR2016-00831)
+        let trial = await PtabTrial.objects.get("IPR2016-00831")
         return trial.documents
     }
 
