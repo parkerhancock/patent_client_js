@@ -12,7 +12,7 @@ Currently supports:
 * [United States Patent & Trademark Office][USPTO]
 
   * [Patent Trial & Appeal Board API][PTAB]  - Full Support
-  * [Patent Examination Data][PEDS] - Basic Support (queries that retreive less than 20 records)
+  * [Patent Examination Data][PEDS] - Full Support
   * [Patent Assignment Data][Assignment] - Advanced Search Support
   
 * [United States International Trade Commission][ITC]
