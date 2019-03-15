@@ -39,6 +39,8 @@ class Manager {
     }    
 
     async next() {
+        return await this[Symbol.asyncIterator].next()
+        /*
         let pageNumber = Math.floor(this.iteratorIndex / 20);
         let index = this.iteratorIndex % 20;
         this.iteratorIndex++
@@ -49,8 +51,27 @@ class Manager {
         } else {
             data = page
         }
+        let length = await this.length()
+        let done = this.iteratorIndex >= await length - 1
         
-        return new this.modelClass(data[index]);
+        return new (this.modelClass(data[index]), done);
+        */
+    }
+}
+
+async function* iterateManager(manager) {
+    let length = await manager.length()
+    for (let i = 0; i < length; i++) {
+        let pageNumber = Math.floor(manager.iteratorIndex / 20);
+        let position = manager.iteratorIndex % 20;
+        let page = await manager.getPage(pageNumber);
+        let data = null
+        if (manager.docLocation) {
+            data = manager.docLocation.split(".").reduce((agg, next) => agg[next], page)
+        } else {
+            data = page
+        }
+        yield data[position]
     }
 }
 

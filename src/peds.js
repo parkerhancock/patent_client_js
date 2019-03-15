@@ -10,14 +10,18 @@ class USApplication extends Model {};
 class USApplicationManager extends Manager {
     modelClass = USApplication
     defaultQuery = "applId"
-    docLocation = "queryResults.searchResponse.response.docs"
+    docLocation = "response.docs"
 
     async fetchPage(pageNumber) {
         return await request.post({
             url: "https://ped.uspto.gov/api/queries",
             body: this.getQuery(pageNumber),
             json: true,
-        })
+        }).queryResults.searchResponse
+    }
+
+    async length(){
+        return await this.getPage(0).response.numFound
     }
 
     getQuery(pageNumber) {
