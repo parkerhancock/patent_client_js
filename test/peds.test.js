@@ -12,6 +12,6 @@ test("can get multiple applications for an assignee", async () => {
     for await (let app of iterator) {
         counter += 1;
     }
-    expect(counter).toBe(5);
+    expect(counter).toEqual(5);
 
 })

@@ -2,12 +2,9 @@ require("@babel/polyfill");
 const request = require('request-promise-native');
 const base = require('./base')
 
-const Model = base.Model
-const Manager = base.Manager
+class Assignment extends base.Model {};
 
-class Assignment extends Model {};
-
-class AssignmentManager extends Manager {
+class AssignmentManager extends base.Manager {
     defaultQuery = "applicationNumber"
     docLocation = "docs"
     modelClass = Assignment
@@ -19,11 +16,16 @@ class AssignmentManager extends Manager {
             strictSSL: false
         })
 
-        return this.objectFromXml(response)
+        let page = this.objectFromXml(response)
+        return page
     }
 
     async length() {
-        return await this.getPage(0).length
+        if (this.params.limit) {
+            return this.params.limit
+        }
+        let page = await this.getPage(0)
+        return page.length
     }
 
     objectFromXml = (xml_str) => {
