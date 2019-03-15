@@ -2,26 +2,29 @@ require("@babel/polyfill");
 const request = require('request-promise-native');
 const base = require('./base')
 
-const Model = base.Model
-const Manager = base.Manager
+class USApplication extends base.Model {};
 
-class USApplication extends Model {};
-
-class USApplicationManager extends Manager {
+class USApplicationManager extends base.Manager {
     modelClass = USApplication
     defaultQuery = "applId"
     docLocation = "response.docs"
 
     async fetchPage(pageNumber) {
-        return await request.post({
+        let response = await request.post({
             url: "https://ped.uspto.gov/api/queries",
             body: this.getQuery(pageNumber),
             json: true,
-        }).queryResults.searchResponse
+        })
+        return response.queryResults.searchResponse
+        
     }
 
     async length(){
-        return await this.getPage(0).response.numFound
+        if (this.params.limit) {
+            return this.params.limit
+        }
+        let page = await this.getPage(0)
+        return page.response.numFound
     }
 
     getQuery(pageNumber) {
@@ -33,7 +36,11 @@ class USApplicationManager extends Manager {
         }
         function reducer(accumulator, param) {
             let [field, query] = param
-            return accumulator + `${field}:(${query}) `
+            if (field == "limit") {
+                return accumulator
+            } else {
+                return accumulator + `${field}:(${query}) `
+            }
         }
         query.searchText = Object.entries(this.params).reduce(reducer, "")
         return query
